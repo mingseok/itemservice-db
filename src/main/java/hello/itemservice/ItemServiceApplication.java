@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Profile;
 public class ItemServiceApplication {
 
 	public static void main(String[] args) {
+		// git 테스트
 		SpringApplication.run(ItemServiceApplication.class, args);
 	}
 
