@@ -19,7 +19,6 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@Commit
 @Transactional
 @SpringBootTest
 class ItemRepositoryTest {
@@ -35,7 +34,6 @@ class ItemRepositoryTest {
         }
     }
 
-    @Commit
     @Test
     void save() {
         //given
