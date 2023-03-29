@@ -96,4 +96,6 @@ class ItemRepositoryTest {
         List<Item> result = itemRepository.findAll(new ItemSearchCond(itemName, maxPrice));
         assertThat(result).containsExactly(items);
     }
+
+
 }
