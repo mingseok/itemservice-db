@@ -11,6 +11,7 @@ import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,10 +26,9 @@ public class JpaItemRepository implements ItemRepository {
         this.em = em;
     }
 
-
     @Override
     public Item save(Item item) {
-        em.persist(item); // persist : "영구적으로 보존한다" 라는 뜻이다.
+        em.persist(item);
         return item;
     }
 
@@ -48,16 +48,20 @@ public class JpaItemRepository implements ItemRepository {
 
     @Override
     public List<Item> findAll(ItemSearchCond cond) {
-        String jpql = "select i from Item i";
+        String jpql = "selectxxx i from Item i";
+
         Integer maxPrice = cond.getMaxPrice();
         String itemName = cond.getItemName();
+
         if (StringUtils.hasText(itemName) || maxPrice != null) {
             jpql += " where";
         }
 
         boolean andFlag = false;
+        List<Object> param = new ArrayList<>();
         if (StringUtils.hasText(itemName)) {
             jpql += " i.itemName like concat('%',:itemName,'%')";
+            param.add(itemName);
             andFlag = true;
         }
 
@@ -66,19 +70,18 @@ public class JpaItemRepository implements ItemRepository {
                 jpql += " and";
             }
             jpql += " i.price <= :maxPrice";
+            param.add(maxPrice);
         }
 
         log.info("jpql={}", jpql);
+
         TypedQuery<Item> query = em.createQuery(jpql, Item.class);
         if (StringUtils.hasText(itemName)) {
             query.setParameter("itemName", itemName);
         }
-
         if (maxPrice != null) {
             query.setParameter("maxPrice", maxPrice);
         }
         return query.getResultList();
     }
-
-
 }
