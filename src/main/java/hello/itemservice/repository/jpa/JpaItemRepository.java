@@ -79,4 +79,6 @@ public class JpaItemRepository implements ItemRepository {
         }
         return query.getResultList();
     }
+
+
 }
